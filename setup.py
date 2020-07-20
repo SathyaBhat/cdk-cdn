@@ -9,17 +9,17 @@ setuptools.setup(
     name="images_cdn",
     version="0.0.1",
 
-    description="An empty CDK Python app",
+    description="Creates a S3 Bucket and CloudFront distribution with the bucket as origin to act as a CDN" ,
     long_description=long_description,
     long_description_content_type="text/markdown",
 
-    author="author",
+    author="Sathyajith Bhat",
 
     package_dir={"": "images_cdn"},
     packages=setuptools.find_packages(where="images_cdn"),
 
     install_requires=[
-        "aws-cdk.core==1.33.1",
+        "aws-cdk.core==1.53.0",
     ],
 
     python_requires=">=3.6",

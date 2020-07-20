@@ -1,9 +1,7 @@
 
-# Welcome to your CDK Python project!
+# Images CDN CDK project
 
-This is a blank project for Python development with CDK.
-
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+CDK project to create a S3 bucket to host assets(images?) and create a CloudFront distribution.
 
 This project is set up like a standard Python project.  The initialization
 process also creates a virtualenv within this project, stored under the .env
