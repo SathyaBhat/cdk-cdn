@@ -20,6 +20,8 @@ setuptools.setup(
 
     install_requires=[
         "aws-cdk.core==1.53.0",
+        "aws-cdk.aws-s3==1.53.0",
+        "aws-cdk.aws-cloudfront==1.53.0"
     ],
 
     python_requires=">=3.6",
