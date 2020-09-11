@@ -4,23 +4,25 @@ from aws_cdk import aws_cloudfront as cf
 from aws_cdk import aws_certificatemanager as acm
 class ImagesCdnStack(core.Stack):
 
-    def __init__(self, scope: core.Construct, id: str, bucket_name: str, **kwargs) -> None:
+    def __init__(self, scope: core.Construct, id: str, bucket_name: str, cf_id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
         # The code that defines your stack goes here
         bucket = s3.Bucket(self, 
-                            "images-cdn",
+                            id=id,
                             bucket_name=bucket_name,
                             access_control=s3.BucketAccessControl.PUBLIC_READ,
                             website_index_document="index.html"
                             )
+        bucket.grant_public_access()
         cert = acm.Certificate(self, 
                         "Cert", 
                         domain_name=bucket_name,
                         validation=acm.CertificateValidation.from_dns()
                         )
         
-        cf.CloudFrontWebDistribution(self, "cf_cdn",
+        cf.CloudFrontWebDistribution(self, 
+                                    id=cf_id,
                                      price_class=cf.PriceClass.PRICE_CLASS_200,
                                      origin_configs=[
                                          cf.SourceConfiguration(
