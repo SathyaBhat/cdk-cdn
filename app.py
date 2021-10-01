@@ -11,15 +11,25 @@ images_cdn = ImagesCdnStack(app,
                     env=core.Environment(region='us-east-1'),
                     bucket_name="images.sbhat.me",
                     cf_id="cf_cdn")
-core.Tag.add(images_cdn, "used_for", "Blog images")
-core.Tag.add(images_cdn, "created_by", "sathyabhat")
+core.Tags.of(images_cdn).add("used_for", "Blog images")
+core.Tags.of(images_cdn).add("created_by", "sathyabhat")
 
 cpgweds_cdn = ImagesCdnStack(app, 
                     id="cpgweds", 
                     env=core.Environment(region='us-east-1'),
                     bucket_name="joshenoy.weds.sathyabh.at",
                     cf_id="cpgweds_cf")
-core.Tag.add(cpgweds_cdn, "used_for", "cpgweds.com site")
-core.Tag.add(cpgweds_cdn, "created_by", "sathyabhat")
+core.Tags.of(cpgweds_cdn).add("used_for", "cpgweds.com site")
+core.Tags.of(cpgweds_cdn).add("created_by", "sathyabhat")
+
+all_images_cdn = ImagesCdnStack(app, 
+                    id="all-images",
+                    env=core.Environment(region='us-east-1'),
+                    bucket_name="i.sathyabh.at",
+                    cf_id="cf_cdn")
+
+core.Tags.of(all_images_cdn).add("used_for", "Blog images")
+core.Tags.of(all_images_cdn).add("created_by", "sathyabhat")
+
 
 app.synth()
