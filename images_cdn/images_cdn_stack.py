@@ -11,31 +11,33 @@ class ImagesCdnStack(core.Stack):
         bucket = s3.Bucket(self, 
                             id=id,
                             bucket_name=bucket_name,
-                            access_control=s3.BucketAccessControl.PUBLIC_READ,
+                            public_read_access=False,
+                            block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
                             website_index_document="index.html"
                             )
-        bucket.grant_public_access()
+        s3.BlockPublicAccess()
         cert = acm.Certificate(self, 
                         "Cert", 
                         domain_name=bucket_name,
                         validation=acm.CertificateValidation.from_dns()
                         )
-        
+        oai = cf.OriginAccessIdentity(self, "OriginAccess", comment=f"Origin Access Identity for the S3 bucket {bucket_name}")
         cf.CloudFrontWebDistribution(self, 
                                     id=cf_id,
-                                     price_class=cf.PriceClass.PRICE_CLASS_200,
-                                     origin_configs=[
-                                         cf.SourceConfiguration(
-                                             behaviors=[
-                                                 cf.Behavior(
-                                                     is_default_behavior=True)
-                                             ],
-                                             s3_origin_source=cf.S3OriginConfig(
-                                                 s3_bucket_source=bucket
-                                             )
-                                         )
-                                     ],
-                                     alias_configuration=cf.AliasConfiguration(names=[bucket_name],
-                                                                acm_cert_ref=cert.certificate_arn
-                                         )
+                                    price_class=cf.PriceClass.PRICE_CLASS_200,
+                                    origin_configs=[
+                                        cf.SourceConfiguration(
+                                            behaviors=[
+                                                cf.Behavior(
+                                                    is_default_behavior=True)
+                                            ],
+                                            s3_origin_source=cf.S3OriginConfig(
+                                                s3_bucket_source=bucket,
+                                                origin_access_identity=oai,
+                                            )
+                                        )
+                                    ],
+                                    alias_configuration=cf.AliasConfiguration(names=[bucket_name],
+                                                               acm_cert_ref=cert.certificate_arn
+                                        )
                                     )
