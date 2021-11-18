@@ -19,11 +19,9 @@ setuptools.setup(
     packages=setuptools.find_packages(where="images_cdn"),
 
     install_requires=[
-        "aws-cdk.core==1.125.0",
-        "aws-cdk.aws-s3==1.125.0",
-        "aws-cdk.aws-cloudfront==1.125.0"
+        "aws-cdk-lib>=2.0.0rc30",
+        "constructs>=10.0.9",
     ],
-
     python_requires=">=3.6",
 
     classifiers=[
