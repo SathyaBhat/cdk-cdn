@@ -7,7 +7,7 @@ with open("README.md") as fp:
 
 setuptools.setup(
     name="images_cdn",
-    version="0.0.1",
+    version="1.0.0",
 
     description="Creates a S3 Bucket and CloudFront distribution with the bucket as origin to act as a CDN" ,
     long_description=long_description,
@@ -19,11 +19,9 @@ setuptools.setup(
     packages=setuptools.find_packages(where="images_cdn"),
 
     install_requires=[
-        "aws-cdk.core==1.125.0",
-        "aws-cdk.aws-s3==1.125.0",
-        "aws-cdk.aws-cloudfront==1.125.0"
+        "aws-cdk-lib==2.1.0",
+        "constructs==10.0.9",
     ],
-
     python_requires=">=3.6",
 
     classifiers=[

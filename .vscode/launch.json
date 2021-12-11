@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [ 
+        {
+            "name": "Debug CDK Py",
+            "type": "python",
+            "request": "launch",
+            // we can use ${file}, but better to set this to the entry point of the app
+            "program": "${file}"
+        }
+    ],
+}
