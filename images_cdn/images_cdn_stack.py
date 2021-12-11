@@ -1,5 +1,6 @@
 from aws_cdk import aws_s3 as s3
 from aws_cdk import aws_cloudfront as cf
+from aws_cdk import aws_cloudfront_origins as origins
 from aws_cdk import aws_certificatemanager as acm
 from aws_cdk import Stack
 from constructs import Construct
@@ -24,6 +25,9 @@ class ImagesCdnStack(Stack):
                         validation=acm.CertificateValidation.from_dns()
                         )
         oai = cf.OriginAccessIdentity(self, "OriginAccess", comment=f"Origin Access Identity for the S3 bucket {bucket_name}")
+        viewer_cert = cf.ViewerCertificate.from_acm_certificate(cert, 
+                        aliases=[bucket_name] 
+        )
         cf.CloudFrontWebDistribution(self, 
                                     id=cf_id,
                                     price_class=cf.PriceClass.PRICE_CLASS_200,
@@ -36,10 +40,8 @@ class ImagesCdnStack(Stack):
                                             s3_origin_source=cf.S3OriginConfig(
                                                 s3_bucket_source=bucket,
                                                 origin_access_identity=oai,
-                                            )
+                                            ),
                                         )
                                     ],
-                                    alias_configuration=cf.AliasConfiguration(names=[bucket_name],
-                                                               acm_cert_ref=cert.certificate_arn
-                                        )
-                                    )
+                                    viewer_certificate=viewer_cert
+        )
